@@ -1,0 +1,78 @@
+
+.cardBig {
+    --border-radius: 0.75rem;
+    --primary-color: rgba(126, 98, 204);
+    --secondary-color: #3c3852;
+    width: 400px;
+    font-family: 'Montserrat', 'serif';   
+    padding: 1rem;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+    background: #f1f1f3;
+    -webkit-box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 3%);
+            box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 3%);
+    position: relative;
+  }
+  
+  .cardBig > * + * {
+    margin-top: 0.75em;
+  }
+  
+  .cardBig .cardBig__content {
+    color: var(--secondary-color);
+    font-size: 0.86rem;
+    text-align: left;
+  }
+  
+  .cardBig .cardBig__title {
+    padding: 0;
+    font-weight: 400;
+    font-size: 1.2rem;
+  }
+  
+  .cardBig{
+    color: #6e6b80;
+    font-size: 0.8rem;
+  }
+  
+  .cardBig .cardBig__arrow {
+    position: absolute;
+    background: var(--primary-color);
+    padding: 0.4rem;
+    border-top-left-radius: var(--border-radius);
+    border-bottom-right-radius: var(--border-radius);
+    bottom: 0;
+    right: 0;
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+  }
+  
+  .cardBig .cardBig_date svg {
+    -webkit-transition: 0.2s;
+    transition: 0.2s;
+  }
+  
+  /* hover */
+  .cardBig:hover .cardBig__title {
+    color: var(--primary-color);
+    text-decoration: underline;
+  }
+  
+  .cardBig:hover{
+    background: rgb(178, 162, 222);
+  }
+  
+  .cardBig:hover svg {
+    -webkit-transform: translateX(3px);
+        -ms-transform: translateX(3px);
+            transform: translateX(3px);
+  }

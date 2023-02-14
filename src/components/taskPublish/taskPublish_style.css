@@ -1,0 +1,32 @@
+.divMain {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.md\:flex-row {
+  @media (min-width: 768px) {
+    flex-direction: row;
+  }
+}
+
+.divSecondary {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 1.5rem;
+}
+
+@media (min-width:  768px) {
+  .md\:grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+
+  }
+}
+
+@media (min-width: 1024px) {
+  .lg\:grid-cols-4 {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
