@@ -15,10 +15,10 @@ export const GetInputs = () => {
   const [showComponent, setShowComponent] = useState(false);
   const [showComponent1, setShowComponent1] = useState(false);
   const [date, setDate] = useState('');
-
-  
   const [firstButtonPressed, setFirstButtonPressed] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+
+
   const handleSubmit = async (event: { preventDefault: () => void; }) => {
     setFirstButtonPressed(true);
     setIsLoading(true);
@@ -28,20 +28,21 @@ export const GetInputs = () => {
     let expectedTasks: any[]
     await extractClickUpData('3117051', apiKey, +month, +day, +year)
     .then((result: any[][]) => {
+
         expectedTasks = result.flat();
+        //console.log('Expected:',expectedTasks);
         setTask(expectedTasks);
-        console.log('Expected:', expectedTasks);
-        if (Array.isArray(task) && task.length === 0) {
-          setTask(expectedTasks);
-          console.log('Recived:', task);
-        } else {
-          console.log('Tasks:', task);
-        }
         setIsLoading(false);
         setFirstButtonPressed(false);
+
+        if(task.length === 0 ){
+          //console.log('Error setting tasks');
+          setTask(expectedTasks);
+          //console.log('Tasks:', task);
+        }
     })
     .catch((error: Error) => {
-        console.error(error);
+        console.warn(error);
     });
 
   };
@@ -59,7 +60,7 @@ export const GetInputs = () => {
             value={apiKey}
             onChange={(event) => setApiKey(event.target.value)}
           />
-          </div>
+          </div>  
         <div className="field">
           <input 
             type="text" 
@@ -122,4 +123,3 @@ export const GetInputs = () => {
 };
 
 export default GetInputs;
-//

@@ -1,5 +1,6 @@
 import axios from 'axios';
 import rateLimit from 'axios-rate-limit';
+import axiosRetry from 'axios-retry';
 import { ClickUpApiTaskResponse} from '../interfaces/clikupapi-response.interface';
 import { Space } from '../interfaces/clickupapi-response-spaces.interface';
 
@@ -7,7 +8,13 @@ const instance = axios.create({
   baseURL: 'https://cors.redoc.ly/https://api.clickup.com/api/v2',
 });
 
-const rateLimitedInstance = rateLimit(instance, { maxRPS: 20 });
+const rateLimitedInstance = rateLimit(instance, { maxRPS: 100 });
+
+axiosRetry(rateLimitedInstance, {
+  retries: 5,
+  retryDelay: axiosRetry.exponentialDelay,
+  retryCondition: error => (error.response && error.response.status === 429) || false,
+});
 
 export const extractClickUpData = async (
     spaceId: string,
@@ -24,7 +31,6 @@ export const extractClickUpData = async (
       });
       const { data } = response;
       const spaceSaveId = data.spaces.map((ids: { id: any; }) => ids.id);
-  
       const folderPromises = spaceSaveId.map((id: any) =>
       rateLimitedInstance.get(`/space/${id}/folder`, {
         headers: {
@@ -56,8 +62,9 @@ export const extractClickUpData = async (
   
       const taskData = await Promise.all(promises);
       return taskData.filter(taskArray => taskArray.length > 0);
+
     } catch (error) {
-      console.error(error);
+      console.warn(error);
       return [];
     }
   };
