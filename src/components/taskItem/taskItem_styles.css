@@ -3,7 +3,7 @@
     --border-radius: 0.75rem;
     --primary-color: rgba(126, 98, 204);
     --secondary-color: #3c3852;
-    width: 140px;
+    width: 200px;
     font-family: 'Montserrat', 'serif';   
     padding: 0.5rem;
     cursor: pointer;
@@ -13,7 +13,24 @@
             box-shadow: 0px 8px 16px 0px rgb(0 0 0 / 3%);
     position: relative;
   }
+  @media (min-width:  400px) {
+    .md\:card-adaption {
+      width: 150px;
   
+    }
+  }
+  @media (min-width: 768px) {
+    .md\:card-adaption {
+      width: 200px;
+  
+    }
+  }
+  
+  @media (min-width: 1024px) {
+    .lg\:card-adaption  {
+      width: 300px;
+    }
+  }
   .card > * + * {
     margin-top: 0.75em;
   }
@@ -26,7 +43,7 @@
   .card .card__title {
     padding: 0;
     font-weight: 400;
-    font-size: 1.2rem;
+    font-size: 1rem;
   }
   
   .card .card__date {

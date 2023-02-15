@@ -11,12 +11,12 @@ export const TaskItem: React.FC<Props> = ({id, name, text_content}) => {
   let outputString = '';
 
   if (updateIndex !== -1) {
-      outputString = text_content.substr(updateIndex + 8);
+      outputString = text_content.substring(updateIndex + 8);
   }
 
   const taskName = 'Example'
   return (
-    <div key={id} className="card">
+    <div key={id} className="card md:card-adaption lg:card-adaption">
         <h3  className="card__title">Task: <i>{`${name}`}</i></h3>
         <p  className="card__content">{`${outputString}`}</p>
     </div>

@@ -1,11 +1,13 @@
 import './taskReport_styles.css'
 import React, { useRef } from 'react';
 import copyCardAsText from '../copyCard/copyCardAsText'
+import { Status } from '../../interfaces/clikupapi-response.interface';
 
 interface Task {
   id: number;
   name: string;
   text_content: string;
+  status: Status;
 }
 
 interface Props {
@@ -15,13 +17,13 @@ interface Props {
 
 const TaskReport: React.FC<Props> = ({ tasks, date }) => {
   return (
-    <div className="cardBig" onClick={copyCardAsText}>
+    <div className="cardBig md:size-card lg:size-card" onClick={copyCardAsText}>
       <h3 className="cardBig__title">Space EoD</h3>
       <div className="cardBig__date">
         {date}
       </div>
       <ol className="cardBig__content">
-        {tasks.map(({ id, name, text_content }) => {
+        {tasks.map(({ id, name, text_content, status }) => {
           const updateIndex = text_content.indexOf("[Update]");
           let outputString = '';
 
@@ -30,7 +32,7 @@ const TaskReport: React.FC<Props> = ({ tasks, date }) => {
           }
 
           return (
-            <li key={id}>[{name}]:{outputString}</li>
+            <li key={id}>[{status.status?.toLocaleUpperCase()}]<a href={`https://app.clickup.com/t/${id}`}>[{name}]</a>:{outputString}</li>
           );
         })}
       </ol>
