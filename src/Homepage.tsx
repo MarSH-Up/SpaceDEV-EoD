@@ -3,9 +3,6 @@ import React, { useState } from 'react';
 import './styles/Title.css'
 import './styles/styles.css'
 import GetInputs from './components/getInputs/getInputs';
-import Loader from './components/loaderAnimation/loader';
-import TaskReport from './components/tastReport/taskReport'
-
 
 function App() {
   const [categories, setCategories] = useState(['Shaman King']);
