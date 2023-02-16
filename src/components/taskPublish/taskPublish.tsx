@@ -6,8 +6,7 @@ export const TaskPublish = ({ tasks }: { tasks: any[] }) => {
   return (
     <div className="divMain md:flex-row">
       <div className="divSecondary md:grid-cols-2 lg:grid-cols-4 md:flex-row">
-        {Array.isArray(tasks) &&
-          tasks.map((task) => (
+        {Array.isArray(tasks) && tasks.map((task) => (
             <TaskItem
               id={task.id}
               name={task.name}

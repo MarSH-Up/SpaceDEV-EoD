@@ -24,11 +24,13 @@ const TaskReport: React.FC<Props> = ({ tasks, date }) => {
       </div>
       <ol className="cardBig__content">
         {tasks.map(({ id, name, text_content, status }) => {
-          const updateIndex = text_content.indexOf("[Update]");
+          let updateIndex: number;
           let outputString = '';
-
-          if (updateIndex !== -1) {
-            outputString = text_content.slice(updateIndex + 8);
+          if(text_content){
+          updateIndex = text_content.indexOf("[Update]");
+            if (updateIndex !== -1) {
+              outputString = text_content.substring(updateIndex + 8);
+              }
           }
 
           return (

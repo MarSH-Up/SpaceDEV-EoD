@@ -5,13 +5,6 @@ import './styles/styles.css'
 import GetInputs from './components/getInputs/getInputs';
 
 function App() {
-  const [categories, setCategories] = useState(['Shaman King']);
-
-  const onAddCategory = (newCategory: string) => {
-  if (categories.includes(newCategory)) return;
-  setCategories([newCategory, ...categories]);
-  };
-
   return (
     <>
     <div className='page'>

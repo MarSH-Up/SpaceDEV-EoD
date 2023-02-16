@@ -7,14 +7,14 @@ interface Props {
   text_content: string, 
 }
 export const TaskItem: React.FC<Props> = ({id, name, text_content}) => {
-  const updateIndex = text_content.indexOf("[Update]");
+  let updateIndex: number;
   let outputString = '';
-
-  if (updateIndex !== -1) {
+  if(text_content){
+   updateIndex = text_content.indexOf("[Update]");
+    if (updateIndex !== -1) {
       outputString = text_content.substring(updateIndex + 8);
+      }
   }
-
-  const taskName = 'Example'
   return (
     <div key={id} className="card md:card-adaption lg:card-adaption">
         <h3  className="card__title">Task: <i>{`${name}`}</i></h3>
