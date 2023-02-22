@@ -4,7 +4,6 @@
 
 <div align="center">
   <img src="space-eod-logo.png" height="200"/>
-  <h1>UI-Router-React</h1>
   <a href="https://github.com/MarSH-Up/SpaceDEV-EoD">
     <img src="https://img.shields.io/travis/ui-router/react/master.svg?style=flat-square">
   </a>
