@@ -4,6 +4,7 @@ export interface Welcome {
 
 export interface Space {
     spaces: any;
+    user: any;
     id?:                string;
     name?:              string;
     color?:             null | string;

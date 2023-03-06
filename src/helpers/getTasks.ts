@@ -8,10 +8,10 @@ const instance = axios.create({
   baseURL: 'https://cors.redoc.ly/https://api.clickup.com/api/v2',
 });
 
-const rateLimitedInstance = rateLimit(instance, { maxRPS: 100 });
+const rateLimitedInstance = rateLimit(instance, { maxRPS: 1 });
 
 axiosRetry(rateLimitedInstance, {
-  retries: 5,
+  retries: 2,
   retryDelay: axiosRetry.exponentialDelay,
   retryCondition: error => (error.response && error.response.status === 429) || false,
 });
@@ -24,12 +24,17 @@ export const extractClickUpData = async (
     year: number,
   ): Promise<any[][]> => {
     try {
+      const {data: { user: { username } } } = await rateLimitedInstance.get<Space>(`/user`, {
+        headers: {
+          Authorization: authApi,
+        },
+      });
       const response = await rateLimitedInstance.get<Space>(`/team/${spaceId}/space`, {
         headers: {
           Authorization: authApi,
         },
       });
-      const { data } = response;
+      let { data } = response;
       const spaceSaveId = data.spaces.map((ids: { id: any; }) => ids.id);
       const folderPromises = spaceSaveId.map((id: any) =>
       rateLimitedInstance.get(`/space/${id}/folder`, {
@@ -61,7 +66,7 @@ export const extractClickUpData = async (
       )
   
       const taskData = await Promise.all(promises);
-      return taskData.filter(taskArray => taskArray.length > 0);
+      return [username, taskData.filter(taskArray => taskArray.length > 0)];
 
     } catch (error) {
       console.warn(error);
@@ -73,7 +78,7 @@ export const extractClickUpData = async (
 
 
   /*
-  import { extractClickUpData } from './bases/testing_getTask'
+import { extractClickUpData } from './bases/testing_getTask'
 
 const spaceId = '3117051';
 const authApi = 'pk_49716550_Q3QEO4C0I3BDU44F24XDCDXJ13ALD771';
