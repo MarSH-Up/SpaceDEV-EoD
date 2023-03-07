@@ -34,7 +34,7 @@ const TaskReport: React.FC<Props> = ({ tasks, date, user }) => {
 								);
 							}
 						}
-
+						//:red_circle:  :large_orange_circle:   :large_blue_circle:  :large_green_circle:  :large_yellow_circle:
 						return (
 							<li key={id}>
 								[{status.status?.toLocaleUpperCase()}]

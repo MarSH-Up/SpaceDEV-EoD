@@ -30,6 +30,7 @@ export const GetInputs = () => {
 			.then((result: any[][]) => {
 				expectedTasks = result.flat();
 				//console.log('Expected:',expectedTasks);
+				console.log(expectedTasks);
 				setTask(expectedTasks);
 				setIsLoading(false);
 				setFirstButtonPressed(false);
