@@ -50,17 +50,11 @@ export const extractClickUpData = async (
     const listIds = folders.flatMap((folder: any) =>
       folder.lists.flatMap((list: any) => list.id)
     );
+    const startOfday = Date.UTC(year,month-1,day,8,0,0,0);
     const promises = listIds.map((listId: any) =>
     rateLimitedInstance
       .get<ClickUpApiTaskResponse>(
-        `/list/${listId}/task?order_by=updated&date_updated_gt=${Date.UTC(
-          year,
-          month - 1,
-          day,
-          0,
-          1,
-          0
-        )}`,
+        `/list/${listId}/task?order_by=updated&date_updated_gt=${startOfday}`,
         {
           headers: {
             Authorization: authApi,
@@ -72,14 +66,7 @@ export const extractClickUpData = async (
         const taskPromises = tasks.map((task: any) =>
           rateLimitedInstance
             .get(
-              `/task/${task.id}/comment?date_comment_gt=${Date.UTC(
-                year,
-                month - 1,
-                day,
-                0,
-                1,
-                0
-              )}`,
+              `/task/${task.id}/comment?date_comment_gt=${startOfday}`,
               {
                 headers: {
                   Authorization: authApi,
@@ -97,7 +84,6 @@ export const extractClickUpData = async (
                 const taskWithComments = { ...task, comments: filteredComments };
                 return taskWithComments;
               } else {
-                // If there are no filtered comments, return null
                 return null;
               }
             })
@@ -113,7 +99,7 @@ export const extractClickUpData = async (
   );
   
     const taskData = await Promise.all(promises);
-    console.log(username);
+    console.log(taskData.filter((taskArray) => taskArray.length > 0));
     return [username, taskData.filter((taskArray) => taskArray.length > 0)];
   } catch (error) {
     console.warn(error);
@@ -122,20 +108,18 @@ export const extractClickUpData = async (
 };
 
 export default extractClickUpData;
-
 /*
 import { extractClickUpData } from './bases/testing_getTask'
 
 //55696377
+//49721690 Blackbound
 const spaceId = '3117051';
 const authApi = 'pk_49716550_Q3QEO4C0I3BDU44F24XDCDXJ13ALD771';
 testingAPi = pk_43609730_V0Y6XKSCJPHNR8J3IDQS8RB3M1GD353R 
 const month = 2;
 const day = 11;
 const year = 2023;
-
 let testing : any[][];
-
 await extractClickUpData(spaceId, authApi, month, day, year)
     .then((result: any[][]) => {
         testing = result;
@@ -147,3 +131,4 @@ if(typeof testing != 'undefined') {
   console.log(testing);
 }
   */
+//https://www.chartjs.org/docs/latest/samples/line/interpolation.html 
