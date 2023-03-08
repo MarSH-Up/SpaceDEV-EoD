@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./getInputs_styles.css";
 import TaskPublish from "../taskPublish/taskPublish";
 import extractClickUpData from "../../helpers/getTasks";
@@ -7,139 +7,153 @@ import TaskReport from "../tastReport/taskReport";
 import formatDate from "../../helpers/formatDate";
 
 export const GetInputs = () => {
-	const [apiKey, setApiKey] = useState("");
-	const [username, setUsername] = useState("");
-	const [day, setDay] = useState("");
-	const [month, setMonth] = useState("");
-	const [year, setYear] = useState("");
-	const [task, setTask] = useState<any[]>([]);
-	const [showComponent, setShowComponent] = useState(false);
-	const [showComponent1, setShowComponent1] = useState(false);
-	const [date, setDate] = useState("");
-	const [firstButtonPressed, setFirstButtonPressed] = useState(false);
-	const [isLoading, setIsLoading] = useState(false);
+  const [apiKey, setApiKey] = useState(localStorage.getItem("apiKey") || "");
+  const [projectId, setProjectId] = useState(
+    localStorage.getItem("projectId") || ""
+  );
+  const [username, setUsername] = useState("");
+  const [day, setDay] = useState("");
+  const [month, setMonth] = useState("");
+  const [year, setYear] = useState("");
+  const [task, setTask] = useState<any[]>([]);
+  const [showComponent, setShowComponent] = useState(false);
+  const [showComponent1, setShowComponent1] = useState(false);
+  const [date, setDate] = useState("");
+  const [firstButtonPressed, setFirstButtonPressed] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
-	const handleSubmit = async (event: { preventDefault: () => void }) => {
-		setFirstButtonPressed(true);
-		setIsLoading(true);
-		event.preventDefault();
-		setDate(formatDate(+month, +day, +year));
+  useEffect(() => {
+    localStorage.setItem("apiKey", apiKey);
+  }, [apiKey]);
+  useEffect(() => {
+    localStorage.setItem("projectId", projectId);
+  }, [projectId]);
 
-		let expectedTasks: any[];
-		await extractClickUpData("3117051", apiKey, +month, +day, +year)
-			.then((result: any[][]) => {
-				expectedTasks = result.flat();
-				//console.log('Expected:',expectedTasks);
-				console.log(expectedTasks);
-				setTask(expectedTasks);
-				setIsLoading(false);
-				setFirstButtonPressed(false);
+  const handleSubmit = async (event: { preventDefault: () => void }) => {
+    setFirstButtonPressed(true);
+    setIsLoading(true);
+    event.preventDefault();
+    setDate(formatDate(+month, +day, +year));
 
-				if (task.length === 0) {
-					//console.log('Error setting tasks');
-					setTask(expectedTasks);
-					//console.log('Tasks:', task);
-				}
-			})
-			.catch((error: Error) => {
-				console.warn(error);
-			});
-	};
-	return (
-		<form className="form" onSubmit={handleSubmit}>
-			<br />
-			<div className="loader"></div>
-			<p id="heading">End of the Day</p>
+    let expectedTasks: any[];
+    let expectedUser: any;
+    try {
+      const [username, result] = await extractClickUpData(
+        projectId,
+        apiKey,
+        +month,
+        +day,
+        +year
+      );
+      expectedUser = username;
+      expectedTasks = result.flat();
+      setTask(expectedTasks);
+      setUsername(expectedUser);
+      setIsLoading(false);
+      setFirstButtonPressed(false);
 
-			<div className="field">
-				<input
-					type="password"
-					className="input-field"
-					placeholder="Api Key"
-					value={apiKey}
-					onChange={(event) => setApiKey(event.target.value)}
-				/>
-			</div>
-			<div className="field">
-				<input
-					type="text"
-					className="input-field"
-					placeholder="Username"
-					value={username}
-					onChange={(event) => setUsername(event.target.value)}
-				/>
-			</div>
-			<div className="field">
-				<input
-					type="text"
-					className="input-field"
-					placeholder="Day"
-					value={day}
-					onChange={(event) => setDay(event.target.value)}
-				/>
-				<input
-					type="text"
-					className="input-field"
-					placeholder="Month"
-					value={month}
-					onChange={(event) => setMonth(event.target.value)}
-				/>
-				<input
-					type="text"
-					className="input-field"
-					placeholder="Year"
-					value={year}
-					onChange={(event) => setYear(event.target.value)}
-				/>
-			</div>
-			<div className="btn">
-				<button className="button1" type="submit">
-					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-				</button>
-			</div>
-			<div className="hamster-center-div">
-				<br />
-				<div
-					className={`hamster-center-component ${
-						firstButtonPressed && isLoading ? "show" : "hide"
-					}`}
-				>
-					<h3 className="hamster-center-div">
-						Extracting your information&nbsp;
-					</h3>
-					<Loader />
-				</div>
-			</div>
-			<button
-				className="button2"
-				type="button"
-				onClick={() => setShowComponent(!showComponent)}
-			>
-				EoD Check
-			</button>
-			<br />
-			{showComponent && (
-				<div>
-					<TaskPublish user={username} tasks={task} />
-				</div>
-			)}
-			<br />
-			<button
-				className="button3"
-				type="button"
-				onClick={() => setShowComponent1(!showComponent1)}
-			>
-				EoD Report
-			</button>
-			<br />
-			{showComponent1 && (
-				<div className="center-div-report">
-					<TaskReport tasks={task} date={date} user={username} />
-				</div>
-			)}
-			<br />
-		</form>
-	);
+      if (expectedTasks.length === 0) {
+        setTask(expectedTasks);
+      }
+    } catch (error) {
+      console.warn(error);
+    }
+  };
+  return (
+    <form className="form" onSubmit={handleSubmit}>
+      <br />
+      <div className="loader"></div>
+      <p id="heading">End of the Day</p>
+
+      <div className="field">
+        <input
+          type="password"
+          className="input-field"
+          placeholder="Api Key"
+          value={apiKey}
+          onChange={(event) => setApiKey(event.target.value)}
+        />
+      </div>
+      <div className="field">
+        <input
+          type="text"
+          className="input-field"
+          placeholder="Project ID"
+          value={projectId}
+          onChange={(event) => setProjectId(event.target.value)}
+        />
+      </div>
+      <div className="field">
+        <input
+          type="text"
+          className="input-field"
+          placeholder="Day"
+          value={day}
+          onChange={(event) => setDay(event.target.value)}
+        />
+        <input
+          type="text"
+          className="input-field"
+          placeholder="Month"
+          value={month}
+          onChange={(event) => setMonth(event.target.value)}
+        />
+        <input
+          type="text"
+          className="input-field"
+          placeholder="Year"
+          value={year}
+          onChange={(event) => setYear(event.target.value)}
+        />
+      </div>
+      <div className="btn">
+        <button className="button1" type="submit">
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Submit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        </button>
+      </div>
+      <div className="hamster-center-div">
+        <br />
+        <div
+          className={`hamster-center-component ${
+            firstButtonPressed && isLoading ? "show" : "hide"
+          }`}
+        >
+          <h3 className="hamster-center-div">
+            Extracting your information&nbsp;
+          </h3>
+          <Loader />
+        </div>
+      </div>
+      <button
+        className="button2"
+        type="button"
+        onClick={() => setShowComponent(!showComponent)}
+      >
+        EoD Check
+      </button>
+      <br />
+      {showComponent && (
+        <div>
+          <TaskPublish tasks={task} user={username} />
+        </div>
+      )}
+      <br />
+      <button
+        className="button3"
+        type="button"
+        onClick={() => setShowComponent1(!showComponent1)}
+      >
+        EoD Report
+      </button>
+      <br />
+      {showComponent1 && (
+        <div className="center-div-report">
+          <TaskReport tasks={task} date={date} user={username} />
+        </div>
+      )}
+      <br />
+    </form>
+  );
 };
 
 export default GetInputs;

@@ -13,15 +13,14 @@
   </a>
 </div>
 
+SpaceEoD generator is a [React](https://facebook.github.io/react/) app created to automatize the report we send at the end of the day, indicating the tasks we worked on during the day and the update.
 
-SpaceEoD generator is a [React](https://facebook.github.io/react/) app created to automatize the report we send at the end of the day, indicating the tasks we worked on during the day and the update. 
-
-This app implemented the [ClickUp API](https://clickup.com/api/), the platform we use to follow up on tasks. However, if you are from SpaceDEV and are going to continue the project, please reach me, so I can give you access to modify this repository and internal documentation. 
+This app implemented the [ClickUp API](https://clickup.com/api/), the platform we use to follow up on tasks. However, if you are from SpaceDEV and are going to continue the project, please reach me, so I can give you access to modify this repository and internal documentation.
 
 ## Docs & Resources
 
-* [ClickUp API](https://clickup.com/api/)
-* [Axios](https://axios-http.com/docs/intro)
+- [ClickUp API](https://clickup.com/api/)
+- [Axios](https://axios-http.com/docs/intro)
 
 ## Running and building the app
 
@@ -37,7 +36,7 @@ $ npm run build
 
 ```
 
-## Requirements 
+## Requirements
 
 <div align='left'>
     <ul>
@@ -61,4 +60,3 @@ $ npm run build
 <div align='center'>
     <img src="EoD-Home.png"/>
 </div>
-
