@@ -99,7 +99,6 @@ export const extractClickUpData = async (
   );
   
     const taskData = await Promise.all(promises);
-    console.log(taskData.filter((taskArray) => taskArray.length > 0));
     return [username, taskData.filter((taskArray) => taskArray.length > 0)];
   } catch (error) {
     console.warn(error);
