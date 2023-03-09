@@ -51,6 +51,8 @@ export const GetInputs = () => {
       setUsername(expectedUser);
       setIsLoading(false);
       setFirstButtonPressed(false);
+      setShowComponent(true);
+      setShowComponent1(true);
 
       if (expectedTasks.length === 0) {
         setTask(expectedTasks);
@@ -72,15 +74,17 @@ export const GetInputs = () => {
           placeholder="Api Key"
           value={apiKey}
           onChange={(event) => setApiKey(event.target.value)}
+          required
         />
       </div>
       <div className="field">
         <input
           type="text"
           className="input-field"
-          placeholder="Project ID"
+          placeholder="Sprint ID"
           value={projectId}
           onChange={(event) => setProjectId(event.target.value)}
+          required
         />
       </div>
       <div className="field">
@@ -90,6 +94,7 @@ export const GetInputs = () => {
           placeholder="Day"
           value={day}
           onChange={(event) => setDay(event.target.value)}
+          required
         />
         <input
           type="text"
@@ -97,6 +102,7 @@ export const GetInputs = () => {
           placeholder="Month"
           value={month}
           onChange={(event) => setMonth(event.target.value)}
+          required
         />
         <input
           type="text"
@@ -104,6 +110,7 @@ export const GetInputs = () => {
           placeholder="Year"
           value={year}
           onChange={(event) => setYear(event.target.value)}
+          required
         />
       </div>
       <div className="btn">
@@ -124,34 +131,38 @@ export const GetInputs = () => {
           <Loader />
         </div>
       </div>
-      <button
-        className="button2"
-        type="button"
-        onClick={() => setShowComponent(!showComponent)}
-      >
-        EoD Check
-      </button>
-      <br />
-      {showComponent && (
-        <div>
-          <TaskPublish tasks={task} user={username} />
-        </div>
-      )}
-      <br />
-      <button
-        className="button3"
-        type="button"
-        onClick={() => setShowComponent1(!showComponent1)}
-      >
-        EoD Report
-      </button>
-      <br />
-      {showComponent1 && (
-        <div className="center-div-report">
-          <TaskReport tasks={task} date={date} user={username} />
-        </div>
-      )}
-      <br />
+      <div className="div-cards">
+        {/*
+        <button
+          className="button2"
+          type="button"
+          onClick={() => setShowComponent(!showComponent)}
+        >
+          EoD Check
+          </button> */}
+        <br />
+        {showComponent && (
+          <div>
+            <TaskPublish tasks={task} user={username} />
+          </div>
+        )}
+        <br />
+        {/*
+        <button
+          className="button3"
+          type="button"
+          onClick={() => setShowComponent1(!showComponent1)}
+        >
+          EoD Report
+        </button>*/}
+        <br />
+        {showComponent1 && (
+          <div className="center-div-report">
+            <TaskReport tasks={task} date={date} user={username} />
+          </div>
+        )}
+        <br />
+      </div>
     </form>
   );
 };

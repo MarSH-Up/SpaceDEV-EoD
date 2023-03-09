@@ -183,6 +183,11 @@
   animation: jump7456 0.5s linear infinite;
 }
 
+.div-cards {
+  align-items: center;
+  justify-content: center;
+}
+
 @-webkit-keyframes jump7456 {
   15% {
     border-bottom-right-radius: 3px;

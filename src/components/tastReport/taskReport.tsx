@@ -65,9 +65,8 @@ const TaskReport: React.FC<Props> = ({ tasks, date, user }) => {
           if (updatedComment) {
             return (
               <li key={id}>
-                {statusCircle} [{status.status?.toLocaleUpperCase()}]
-                <a href={`https://app.clickup.com/t/${id}`}>[{name}]</a>:{" "}
-                {outputString}
+                {statusCircle} [{status.status?.toLocaleUpperCase()}] [{name}](
+                {`https://app.clickup.com/t/${id}`}): {outputString}
               </li>
             );
           } else {
