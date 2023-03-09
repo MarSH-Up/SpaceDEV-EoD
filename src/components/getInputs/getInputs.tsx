@@ -78,7 +78,7 @@ export const GetInputs = () => {
         <input
           type="text"
           className="input-field"
-          placeholder="Project ID"
+          placeholder="Sprint ID"
           value={projectId}
           onChange={(event) => setProjectId(event.target.value)}
         />

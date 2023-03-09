@@ -3,6 +3,7 @@ export interface Welcome {
 }
 
 export interface Space {
+  tasks: any;
   folders: any;
   spaces: any;
   user: any;
