@@ -105,28 +105,3 @@ export const extractClickUpData = async (
     return [];
   }
 };
-
-export default extractClickUpData;
-/*
-import { extractClickUpData } from './bases/testing_getTask'
-
-//55696377
-//49721690 Blackbound
-const spaceId = '3117051';
-const authApi = 'pk_49716550_Q3QEO4C0I3BDU44F24XDCDXJ13ALD771';
-testingAPi = pk_43609730_V0Y6XKSCJPHNR8J3IDQS8RB3M1GD353R 
-const month = 2;
-const day = 11;
-const year = 2023;
-let testing : any[][];
-await extractClickUpData(spaceId, authApi, month, day, year)
-    .then((result: any[][]) => {
-        testing = result;
-    })
-    .catch((error: Error) => {
-        console.error(error);
-    });
-if(typeof testing != 'undefined') {
-}
-  */
-//https://www.chartjs.org/docs/latest/samples/line/interpolation.html 
