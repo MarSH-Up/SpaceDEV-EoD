@@ -17,12 +17,34 @@ interface Props {
 }
 
 const TaskReport: React.FC<Props> = ({ tasks, date, user }) => {
+  const sortStatusOrder = {
+    "TO DO": 1,
+    OPEN: 1,
+    "IN PROGRESS": 2,
+    "IN REVIEW": 3,
+    REVIEWED: 4,
+    TESTING: 5,
+    DONE: 6,
+    BLOCKED: 7,
+  };
+
+  const sortedTasks = tasks.sort((a, b) => {
+    const aStatusOrder =
+      sortStatusOrder[
+        a.status?.status?.toLocaleUpperCase() as keyof typeof sortStatusOrder
+      ] || 8;
+    const bStatusOrder =
+      sortStatusOrder[
+        b.status?.status?.toLocaleUpperCase() as keyof typeof sortStatusOrder
+      ] || 8;
+    return aStatusOrder - bStatusOrder;
+  });
   return (
     <div className="cardBig md:size-card lg:size-card" onClick={copyCardAsText}>
       <h3 className="cardBig__title">Space EoD</h3>
       <div className="cardBig__date">{date}</div>
       <ol className="cardBig__content">
-        {tasks.map(({ id, name, status, comments }) => {
+        {sortedTasks.map(({ id, name, status, comments }) => {
           const updatedComment = comments.find(
             (comment: Comment) =>
               comment.comment_text &&
