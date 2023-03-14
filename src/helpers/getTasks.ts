@@ -14,7 +14,7 @@ const instance = axios.create({
 const rateLimitedInstance = rateLimit(instance, { maxRPS: 1 });
 
 axiosRetry(rateLimitedInstance, {
-  retries: 2,
+  retries: 1,
   retryDelay: axiosRetry.exponentialDelay,
   retryCondition: (error) =>
     (error.response && error.response.status === 429) || false,
@@ -54,7 +54,7 @@ export const extractClickUpData = async (
     const promises = listIds.map((listId: any) =>
     rateLimitedInstance
       .get<ClickUpApiTaskResponse>(
-        `/list/${listId}/task?order_by=updated&date_updated_gt=${startOfday}`,
+        `/list/${listId}/task?archived=false&subtasks=true&include_closed=true&order_by=updated&date_updated_gt=${startOfday}`,
         {
           headers: {
             Authorization: authApi,
@@ -77,10 +77,10 @@ export const extractClickUpData = async (
               const comments = commentResponse.data.comments;
               // Filter out any comments that do not match the desired condition
               const filteredComments = comments.filter((comment: { comment_text: string | string[]; }) =>
-                comment.comment_text.includes(`[Update][${username}]`)
+                comment.comment_text != ''
               );
               // Check if there are any filtered comments in the task
-              if (filteredComments.length >= 1) {
+              if (filteredComments.length > 0) {
                 const taskWithComments = { ...task, comments: filteredComments };
                 return taskWithComments;
               } else {
@@ -105,5 +105,3 @@ export const extractClickUpData = async (
     return [];
   }
 };
-
-export default extractClickUpData;
